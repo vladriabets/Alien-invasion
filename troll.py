@@ -1,7 +1,7 @@
 import pygame
 
 
-class Troll():
+class Troll:
     def __init__(self, screen):
         """Инициализирует тролля и задает его начальную позицию."""
         self.screen = screen
