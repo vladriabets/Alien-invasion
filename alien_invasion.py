@@ -14,7 +14,7 @@ def run_game():
         (ai_settings.screen_width, ai_settings.screen_height))
     pygame.display.set_caption("Alien Invasion")
     # Создание корабля
-    ship = Ship(screen)
+    ship = Ship(ai_settings, screen)
     troll = Troll(screen)
 
     # Запуск основного цикла игры
