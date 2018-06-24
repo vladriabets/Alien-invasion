@@ -21,6 +21,7 @@ def run_game():
     while True:
         # Запуск основного цикла игры.
         gf.check_events(ship)
+        ship.update()
         gf.update_screen(ai_settings, screen, ship, troll)
 
 
