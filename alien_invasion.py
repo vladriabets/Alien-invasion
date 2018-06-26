@@ -17,7 +17,6 @@ def run_game():
     ship = Ship(ai_settings, screen)
     troll = Troll(screen)
 
-    # Запуск основного цикла игры
     while True:
         # Запуск основного цикла игры.
         gf.check_events(ship)
