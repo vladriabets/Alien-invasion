@@ -45,8 +45,16 @@ def update_screen(ai_settings, screen, ship, troll, bullets):
     # Все пули выводятся позади изображений корабля и пришельцев.
     for bullet in bullets.sprites():
         bullet.draw_bullet()
-        bullet.update()
     ship.blitme()
     troll.blitme()
     # Отображение последнего прорисованного экрана.
     pygame.display.flip()
+
+def update_bullets(bullets):
+    """Обновляет позиции пуль и уничтожает старые пули."""
+    # Обновление позиций пуль.
+    bullets.update()
+    # Удаление пуль, вышедших за край экрана.
+    for bullet in bullets.copy():
+        if bullet.rect.bottom <= 0:
+            bullets.remove(bullet)
