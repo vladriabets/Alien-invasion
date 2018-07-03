@@ -26,7 +26,7 @@ class Alien(Sprite):
         self.screen.blit(self.image, self.rect)
 
     def update(self):
-        """Перемещает пришельца вправо."""
+        """Перемещает пришельца вбок."""
         self.x += (self.ai_settings.alien_speed_factor *\
                   self.ai_settings.fleet_direction)
         self.rect.x = self.x
