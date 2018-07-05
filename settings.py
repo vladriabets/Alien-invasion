@@ -17,6 +17,6 @@ class Settings:
         self.bullets_allowed = 3
         # Настройки пришельцев
         self.alien_speed_factor = 1
-        self.fleet_drop_speed = 60
+        self.fleet_drop_speed = 20
         # fleet_direction = 1 обозначает движение вправо; а -1 - влево.
         self.fleet_direction = 1

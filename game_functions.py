@@ -151,8 +151,8 @@ def update_aliens(ai_settings, stats, screen, ship, aliens,
     check_aliens_bottom(ai_settings, stats, screen, ship, aliens,
                         bullets)
 
-def check_aliens_bottom(ai_settings, stats, screen,
-bullets):
+def check_aliens_bottom(ai_settings, stats, screen, ship, aliens,
+                        bullets):
     """Проверяет, добрались ли пришельцы до нижнего края
     экрана."""
     screen_rect = screen.get_rect()
