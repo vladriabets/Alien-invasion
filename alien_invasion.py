@@ -35,13 +35,20 @@ def run_game():
     while True:
         gf.check_events(ai_settings, screen, stats, play_button, ship,
                         aliens, bullets)
+        # Функция update_screen согласно книге изначально была
+        # внутри условия if stats.game_active и нигде позже не
+        # было указания перенести вынести её в основыной цикл,
+        # а из-за этого при назначении изначального значения
+        # флага в False при запуске игры отображался чёрный
+        # экран до нажатия наугад кнопки в центре экрана
+        gf.update_screen(ai_settings, screen, ship, aliens, bullets,
+                         stars, play_button, stats)
         if stats.game_active:
             ship.update()
             gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
             gf.update_aliens(ai_settings, stats, screen, ship, aliens,
                              bullets)
-            gf.update_screen(ai_settings, screen, ship, aliens, bullets,
-                             stars, play_button, stats)
+
 
 
 
