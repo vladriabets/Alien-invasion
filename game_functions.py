@@ -7,7 +7,8 @@ from random import randint
 from time import sleep
 
 
-def check_keydown_events(event, ai_settings, screen, ship, bullets):
+def check_keydown_events(event, ai_settings, screen, ship, bullets,
+                         stats, aliens):
     """Реагирует на нажатие клавиш."""
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_RIGHT:
@@ -18,6 +19,9 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets):
             fire_bullet(ai_settings, screen, ship, bullets)
         elif event.key == pygame.K_q:
             sys.exit()
+        elif event.key == pygame.K_p:
+            start_game(ai_settings, stats, aliens, bullets, screen,
+                       ship)
 
 
 def check_keyup_events(event, ship):
@@ -40,8 +44,8 @@ def check_events(ai_settings, screen, stats, play_button, ship,
             check_play_button(ai_settings, screen, stats, play_button,
                               ship, aliens, bullets, mouse_x, mouse_y)
         elif event.type == pygame.KEYDOWN:
-            check_keydown_events(event, ai_settings, screen, ship,
-                                 bullets)
+            check_keydown_events(event, ai_settings, screen, ship, bullets,
+                         stats, aliens)
         elif event.type == pygame.KEYUP:
             check_keyup_events(event, ship)
 
@@ -51,17 +55,24 @@ ship, aliens, bullets, mouse_x, mouse_y):
     """Запускает новую игру при нажатии кнопки Play."""
     button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
     if button_clicked and not stats.game_active:
-        # Указатель мыши скрывается.
-        pygame.mouse.set_visible(False)
-        # Сброс игровой статистики.
-        stats.reset_stats()
-        stats.game_active = True
-        # Очистка списков пришельцев и пуль.
-        aliens.empty()
-        bullets.empty()
-        # Создание нового флота и размещение корабля в центре.
-        create_fleet(ai_settings, screen, ship, aliens)
-        ship.center_ship()
+        start_game(ai_settings, stats, aliens, bullets, screen,
+                   ship)
+
+
+def start_game(ai_settings, stats, aliens, bullets, screen, ship):
+    """Запуск новой игры"""
+    # Указатель мыши скрывается.
+    pygame.mouse.set_visible(False)
+    # Сброс игровой статистики.
+    stats.reset_stats()
+    stats.game_active = True
+    # Очистка списков пришельцев и пуль.
+    aliens.empty()
+    bullets.empty()
+    # Создание нового флота и размещение корабля в центре.
+    create_fleet(ai_settings, screen, ship, aliens)
+    ship.center_ship()
+
 
 
 def update_screen(ai_settings, screen, ship, aliens, bullets,
