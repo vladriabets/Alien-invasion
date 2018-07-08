@@ -51,6 +51,8 @@ ship, aliens, bullets, mouse_x, mouse_y):
     """Запускает новую игру при нажатии кнопки Play."""
     button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
     if button_clicked and not stats.game_active:
+        # Указатель мыши скрывается.
+        pygame.mouse.set_visible(False)
         # Сброс игровой статистики.
         stats.reset_stats()
         stats.game_active = True
@@ -244,3 +246,4 @@ def ship_hit(ai_settings, stats, screen, ship, aliens, bullets):
         sleep(0.5)
     else:
         stats.game_active = False
+        pygame.mouse.set_visible(True)
