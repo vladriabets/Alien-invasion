@@ -61,6 +61,8 @@ ship, aliens, bullets, mouse_x, mouse_y):
 
 def start_game(ai_settings, stats, aliens, bullets, screen, ship):
     """Запуск новой игры"""
+    # Сброс игровых настроек.
+    ai_settings.initialize_dynamic_settings()
     # Указатель мыши скрывается.
     pygame.mouse.set_visible(False)
     # Сброс игровой статистики.
@@ -113,6 +115,7 @@ def check_bullet_alien_collisions(ai_settings, screen, ship, aliens,
     if len(aliens) == 0:
         # Уничтожение существующих пуль и создание нового флота.
         bullets.empty()
+        ai_settings.increase_speed()
         create_fleet(ai_settings, screen, ship, aliens)
 
 def fire_bullet(ai_settings, screen, ship, bullets):
