@@ -78,7 +78,7 @@ def start_game(ai_settings, stats, aliens, bullets, screen, ship):
 
 
 def update_screen(ai_settings, screen, ship, aliens, bullets,
-                  stars, play_button, stats):
+                  stars, play_button, stats, sb):
     """Обновляет изображения на экране на экран."""
     # При каждом проходе цикла перерисовывается экран.
     screen.fill(ai_settings.bg_color)
@@ -88,6 +88,8 @@ def update_screen(ai_settings, screen, ship, aliens, bullets,
     ship.blitme()
     stars.draw(screen)
     aliens.draw(screen)
+    # Вывод счета.
+    sb.show_score()
     # Кнопка Play отображается в том случае, если игра неактивна.
     if not stats.game_active:
         play_button.draw_button()
