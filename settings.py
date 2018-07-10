@@ -16,7 +16,7 @@ class Settings:
         # Настройки пришельцев
         self.fleet_drop_speed = 20
         # Темп ускорения игры
-        self.speedup_scale = 1.1
+        self.speedup_scale = 1.2
         # Темп роста стоимости пришельцев
         self.score_scale = 1.5
 
