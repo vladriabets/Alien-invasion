@@ -82,6 +82,7 @@ def start_game(ai_settings, stats, aliens, bullets, screen, ship,
     sb.prep_score()
     sb.prep_high_score()
     sb.prep_level()
+    sb.prep_ships()
     # Сброс игровой статистики.
     stats.reset_stats()
     stats.game_active = True
@@ -130,7 +131,6 @@ def check_bullet_alien_collisions(ai_settings, screen, ship, aliens,
             stats.score += ai_settings.alien_points * len(aliens)
         sb.prep_score()
         check_high_score(stats, sb)
-
 
     if len(aliens) == 0:
         # Уничтожение существующих пуль и создание нового флота.
@@ -204,7 +204,7 @@ def change_fleet_direction(ai_settings):
     ai_settings.fleet_direction *= -1
 
 def update_aliens(ai_settings, stats, screen, ship, aliens,
-                         bullets):
+                         bullets, sb):
     """Проверяет, достиг ли флот края, после чего
      обновляет позиции всех пришельцев во флоте."""
     check_fleet_edges(ai_settings, aliens)
@@ -212,13 +212,13 @@ def update_aliens(ai_settings, stats, screen, ship, aliens,
     # Проверка коллизий "пришелец-корабль".
     if pygame.sprite.spritecollideany(ship, aliens):
         ship_hit(ai_settings, stats, screen, ship, aliens,
-                 bullets)
+                 bullets, sb)
     # Проверка пришельцев, добравшихся до нижнего края экрана.
     check_aliens_bottom(ai_settings, stats, screen, ship, aliens,
-                        bullets)
+                        bullets, sb)
 
 def check_aliens_bottom(ai_settings, stats, screen, ship, aliens,
-                        bullets):
+                        bullets, sb):
     """Проверяет, добрались ли пришельцы до нижнего края
     экрана."""
     screen_rect = screen.get_rect()
@@ -226,7 +226,7 @@ def check_aliens_bottom(ai_settings, stats, screen, ship, aliens,
         if alien.rect.bottom >= screen_rect.bottom:
             # Происходит то же, что при столкновении c кораблём.
             ship_hit(ai_settings, stats, screen, ship, aliens,
-                     bullets)
+                     bullets, sb)
             break
 
 def create_star(ai_settings, screen, stars, star_number, row_number):
@@ -266,11 +266,13 @@ def create_many_stars(ai_settings, screen, ship, stars):
             create_star(ai_settings, screen, stars, star_number,
                          row_number)
 
-def ship_hit(ai_settings, stats, screen, ship, aliens, bullets):
+def ship_hit(ai_settings, stats, screen, ship, aliens, bullets, sb):
     """Обрабатывает столкновение корабля с пришельцем."""
     if stats.ships_left > 0:
         # Уменьшение ships_left.
         stats.ships_left -= 1
+        # Обновление игровой информации.
+        sb.prep_ships()
 
         # Очистка списков пришельцев и пуль.
         aliens.empty()
