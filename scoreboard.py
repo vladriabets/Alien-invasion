@@ -50,7 +50,6 @@ class Scoreboard:
         self.high_score_image = self.font.render(high_score_str, True,
                                                  self.text_color,
                                                  self.ai_settings.bg_color)
-
         # Рекорд выравнивается по центру верхней стороны.
         self.high_score_rect = self.high_score_image.get_rect()
         self.high_score_rect.centerx = self.screen_rect.centerx

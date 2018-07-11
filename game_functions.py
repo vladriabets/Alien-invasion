@@ -18,6 +18,7 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets,
         elif event.key == pygame.K_SPACE:
             fire_bullet(ai_settings, screen, ship, bullets)
         elif event.key == pygame.K_q:
+            write_record(stats)
             sys.exit()
         elif event.key == pygame.K_p:
             start_game(ai_settings, stats, aliens, bullets, screen,
@@ -78,6 +79,8 @@ def start_game(ai_settings, stats, aliens, bullets, screen, ship,
     # Создание нового флота и размещение корабля в центре.
     create_fleet(ai_settings, screen, ship, aliens)
     ship.center_ship()
+    # Загрузка рекорда
+    read_record(stats)
     # Сброс изображений счетов и уровня.
     sb.prep_score()
     sb.prep_high_score()
@@ -294,3 +297,14 @@ def check_high_score(stats, sb):
     if stats.score > stats.high_score:
         stats.high_score = stats.score
         sb.prep_high_score()
+
+
+def write_record(stats):
+    f = open('record.txt', 'w')
+    f.write(str(stats.high_score))
+    f.close()
+
+def read_record(stats):
+    f = open('record.txt', 'r')
+    stats.high_score = int(f.read())
+    f.close()
