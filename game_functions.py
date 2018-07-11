@@ -8,7 +8,7 @@ from time import sleep
 
 
 def check_keydown_events(event, ai_settings, screen, ship, bullets,
-                         stats, aliens):
+                         stats, aliens, sb):
     """Реагирует на нажатие клавиш."""
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_RIGHT:
@@ -21,7 +21,7 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets,
             sys.exit()
         elif event.key == pygame.K_p:
             start_game(ai_settings, stats, aliens, bullets, screen,
-                       ship)
+                       ship, sb)
 
 
 def check_keyup_events(event, ship):
@@ -34,7 +34,7 @@ def check_keyup_events(event, ship):
 
 
 def check_events(ai_settings, screen, stats, play_button, ship,
-                 aliens, bullets):
+                 aliens, bullets, sb):
     """Обрабатывает нажатия клавиш и события мыши."""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -42,24 +42,28 @@ def check_events(ai_settings, screen, stats, play_button, ship,
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
             check_play_button(ai_settings, screen, stats, play_button,
-                              ship, aliens, bullets, mouse_x, mouse_y)
+                              ship, aliens, bullets, mouse_x, mouse_y,
+                              sb)
         elif event.type == pygame.KEYDOWN:
             check_keydown_events(event, ai_settings, screen, ship, bullets,
-                         stats, aliens)
+                         stats, aliens, sb)
         elif event.type == pygame.KEYUP:
             check_keyup_events(event, ship)
 
 
 def check_play_button(ai_settings, screen, stats, play_button,
-ship, aliens, bullets, mouse_x, mouse_y):
+ship, aliens, bullets, mouse_x, mouse_y, sb):
     """Запускает новую игру при нажатии кнопки Play."""
     button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
     if button_clicked and not stats.game_active:
         start_game(ai_settings, stats, aliens, bullets, screen,
-                   ship)
+                   ship, sb)
 
 
-def start_game(ai_settings, stats, aliens, bullets, screen, ship):
+
+
+def start_game(ai_settings, stats, aliens, bullets, screen, ship,
+               sb):
     """Запуск новой игры"""
     # Сброс игровых настроек.
     ai_settings.initialize_dynamic_settings()
@@ -74,6 +78,13 @@ def start_game(ai_settings, stats, aliens, bullets, screen, ship):
     # Создание нового флота и размещение корабля в центре.
     create_fleet(ai_settings, screen, ship, aliens)
     ship.center_ship()
+    # Сброс изображений счетов и уровня.
+    sb.prep_score()
+    sb.prep_high_score()
+    sb.prep_level()
+    # Сброс игровой статистики.
+    stats.reset_stats()
+    stats.game_active = True
 
 
 
@@ -125,7 +136,11 @@ def check_bullet_alien_collisions(ai_settings, screen, ship, aliens,
         # Уничтожение существующих пуль и создание нового флота.
         bullets.empty()
         ai_settings.increase_speed()
+        # Увеличение уровня.
+        stats.level += 1
+        sb.prep_level()
         create_fleet(ai_settings, screen, ship, aliens)
+
 
 def fire_bullet(ai_settings, screen, ship, bullets):
     """Выпускает пулю, если максимум еще не достигнут."""

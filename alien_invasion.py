@@ -36,7 +36,7 @@ def run_game():
     # Запуск основного цикла игры.
     while True:
         gf.check_events(ai_settings, screen, stats, play_button, ship,
-                        aliens, bullets)
+                        aliens, bullets, sb)
         # Функция update_screen согласно книге изначально была
         # внутри условия if stats.game_active и нигде позже не
         # было указания перенести вынести её в основыной цикл,
